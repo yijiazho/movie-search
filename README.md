@@ -1,2 +1,3 @@
-# text-check
-A text check project with both frontend and backend
+# Movie search
+A movie search project with frontend, backend and database
+
