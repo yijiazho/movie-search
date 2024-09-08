@@ -1,11 +1,10 @@
 package com.movie.configuration;
 
+import java.nio.file.Paths;
+
 import org.bson.codecs.configuration.CodecProvider;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
-
-import java.nio.file.Paths;
-
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.springframework.context.annotation.Bean;
@@ -36,9 +35,9 @@ public class WebConfig {
 
     @Bean
     public MongoClient mongoClient() {
-        String path = Paths.get(".env").toAbsolutePath().toString();
+        String relativePath = Paths.get(".env").toAbsolutePath().toString();
         Dotenv dotenv = Dotenv.configure()
-                .directory(path)
+                .directory(relativePath)
                 .load();
 		String connectionString = dotenv.get("DB_CONNECTION_STRING");
         ServerApi serverApi = ServerApi.builder()
