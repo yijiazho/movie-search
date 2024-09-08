@@ -21,9 +21,4 @@ public class Movie {
     Imdb imdb;
     List<String> countries;
     Tomatoes tomatoes;
-
-    @Override
-    public String toString() {
-        return "Movie [\n  title=" + title + ",\n  genres=" + genres + ",\n  plot=" + plot + "\n]";
-    }
 }

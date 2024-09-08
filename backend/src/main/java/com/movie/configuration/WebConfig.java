@@ -3,10 +3,14 @@ package com.movie.configuration;
 import org.bson.codecs.configuration.CodecProvider;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
+
+import java.nio.file.Paths;
+
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.ConnectionString;
@@ -17,10 +21,12 @@ import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
+import com.movie.controller.MovieSearchController;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
 @Configuration
+@EnableWebMvc
 public class WebConfig {
     
     @Bean
@@ -30,8 +36,9 @@ public class WebConfig {
 
     @Bean
     public MongoClient mongoClient() {
+        String path = Paths.get(".env").toAbsolutePath().toString();
         Dotenv dotenv = Dotenv.configure()
-                .directory("backend")
+                .directory(path)
                 .load();
 		String connectionString = dotenv.get("DB_CONNECTION_STRING");
         ServerApi serverApi = ServerApi.builder()
@@ -50,5 +57,10 @@ public class WebConfig {
         CodecRegistry pojoCodecRegistry = fromRegistries(getDefaultCodecRegistry(), fromProviders(pojoCodecProvider));
 
         return mongoClient.getDatabase("sample_mflix").withCodecRegistry(pojoCodecRegistry);
+    }
+
+    @Bean
+    public MovieSearchController movieSearchController() {
+        return new MovieSearchController();
     }
 }
