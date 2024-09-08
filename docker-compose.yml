@@ -7,22 +7,18 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend/:/usr/src/app # mount local working directory for live reload
+      - ./frontend/:/usr/src/app
       - /usr/src/app/node_modules 
+      - ./frontend/.env:/usr/src/app/.env  # Mount .env into the frontend container
 
-  # backend:
-  #   build:
-  #     context: ./backend
-  #   container_name: backend
-  #   depends_on:
-  #     - mongo
-  #   ports:
-  #     - "8080:8080"
 
-  # mongo:
-  #   image: mongo:7.0
-  #   container_name: mongo_db
-  #   volumes:
-  #     - mongodata:/data/db
-  #   ports:
-  #     - "27017:27017"
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend/.env:/app/.env  # Mount .env file into /app inside container
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
