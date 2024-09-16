@@ -1,6 +1,7 @@
-import { Movie } from "../data/Movie";
-import { MovieRequest } from "../data/movie-request";
+import { Movie } from "../data/movie/movie";
+import { MovieRequest } from "../data/movie/movie-request";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export const getMovies = async (movieRequest: MovieRequest): Promise<Movie[]> => {
     try {

@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import MovieComponent from './component/movie/movie-component';
 
 function App() {
   return (
@@ -19,7 +20,10 @@ function App() {
           Learn React
         </a>
       </header>
+      <MovieComponent />
+      <div> 123 </div>
     </div>
+
   );
 }
 
