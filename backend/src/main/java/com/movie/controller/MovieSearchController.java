@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -24,18 +26,24 @@ import com.movie.data.Movie;
 import com.movie.data.MovieRequest;
 
 import io.micrometer.common.util.StringUtils;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @RestController
 public class MovieSearchController {
     @Autowired
     private MongoClient mongoClient;
     @Autowired
     private MongoDatabase mongoDatabase;
-
+    @Autowired
+    private ObjectMapper mapper;
 
     @PostMapping("/movie")
     @ResponseBody
-    public ResponseEntity<List<Movie>> getMovie(@RequestBody MovieRequest movieRequest) {
+    public ResponseEntity<List<Movie>> getMovie(@RequestBody MovieRequest movieRequest) throws JsonProcessingException {
+        log.info("get movie");
+        log.info(mapper.writeValueAsString(movieRequest));
+
         String title = movieRequest.getTitle();
         String plot = movieRequest.getPlot();
         List<String> cast = movieRequest.getCast();
@@ -74,7 +82,7 @@ public class MovieSearchController {
 
         List<Movie> movies = new ArrayList<>();
         query.into(movies);
-                
+        log.info("Successfully parsed the response");        
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 }
