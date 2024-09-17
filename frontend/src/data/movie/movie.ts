@@ -14,14 +14,7 @@ export const movieSchema = z.object({
         rating: z.number()
     }),
     countries: z.string().array(),
-    // tomatoes: z.object({
-    //     viewer: z.object({
-    //         rating: z.number(),
-    //         numReviews: z.number(),
-    //         meter: z.number()
-    //     }),
-    //     lastupdated: z.date()
-    // })
+    poster: z.string().url()
 });
 
 export type Movie = z.infer<typeof movieSchema>;

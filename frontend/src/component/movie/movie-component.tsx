@@ -4,6 +4,7 @@ import { useFilterStore } from "../../store/filter-store";
 import { Movie } from "../../data/movie/movie";
 import { useMovieStore } from "../../store/movie-store";
 import { MovieRequest } from "../../data/movie/movie-request";
+import { format } from "date-fns";
 
 interface MovieComponentProps {}
 
@@ -47,8 +48,28 @@ const MovieComponent: React.FC<MovieComponentProps> = () => {
             ) : (
                 <ul>
                     {movies.length > 0 ? (
-                        movies.map((movie) => (
-                            <li>{movie.title}</li>
+                        movies.map((movie: Movie) => (
+                            <li key={movie.imdb.id} style={{ marginBottom: "20px", listStyleType: "none" }}>
+                                <div style={{ display: "flex", alignItems: "center" }}>
+                                    {/* Movie Poster */}
+                                    <img
+                                        src={movie.poster}
+                                        alt={`${movie.title} Poster`}
+                                        style={{ width: "150px", height: "225px", marginRight: "20px" }}
+                                    />
+
+                                    <div>
+                                        {/* Movie Title */}
+                                        <h2>{movie.title}</h2>
+
+                                        {/* Movie Cast */}
+                                        <p><strong>Cast:</strong> {movie.cast.join(", ")}</p>
+
+                                        {/* Release Date (formatted) */}
+                                        <p><strong>Released:</strong> {format(new Date(movie.released), "MMM dd, yyyy")}</p>
+                                    </div>
+                                </div>
+                            </li>
                         ))
                     ) : (
                         <li>No movies available</li>

@@ -20,5 +20,5 @@ public class Movie {
     Date released;
     Imdb imdb;
     List<String> countries;
-    //Tomatoes tomatoes;
+    String poster;
 }
